@@ -10,6 +10,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.HashMap;
@@ -20,13 +21,17 @@ public class WaitingFQActivity extends AppCompatActivity {
     public static final int SOUND_BUTTON = 0;
     public SoundPool soundPool;
     public Map<Integer, Integer> soundMap;
+    ImageView image;
+    Button buttonQuestion;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_waiting_fq);
         fullHD();
-        createAskingField();
+        createQButton();
+        b_question();
         initializeSound(this);
 
     }
@@ -72,12 +77,6 @@ public class WaitingFQActivity extends AppCompatActivity {
         mPlayer.setLooping(true);
     }
 
-    private void createAskingField(){
-        TextView qasker = (TextView) findViewById(R.id.questionasker);
-        qasker.setText("Нажмите, чтобы получить вопрос!");
-        qasker.setTextSize(20);
-    }
-
     private void initializeSound(Context context) {
         int MAX_STREAMS = 4;
         int SOUND_QUALITY = 100;
@@ -87,15 +86,32 @@ public class WaitingFQActivity extends AppCompatActivity {
         soundMap.put(SOUND_BUTTON, soundPool.load(context, R.raw.sound_button, priority));
     }
 
-    public void click(View view) {
-        soundPool.play(soundMap.get(SOUND_BUTTON), V.volume, V.volume, V.priority, V.loop, V.rate);
-        try {
-            Thread.sleep(200);
-        } catch (Exception e) {
-        }
-        startActivity(new Intent(WaitingFQActivity.this, ActivityGame.class));
-        overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
-        finish();
+    public void createQButton() {
+        float x, y;
+        int widthButton, heightButton;
+        widthButton = (V.scrWidth > V.scrHeight ? V.scrWidth : V.scrHeight) / 3;
+        heightButton = (int) (widthButton / V.KOEFF_BUTTON_INTRO);
+        x = V.scrWidth/4;
+        y = V.scrHeight/12;
+        buttonQuestion = new Button(this, x, y, widthButton, heightButton, "Question");
+    }
+
+    private void b_question(){
+        buttonQuestion.image.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (Intro.musicSwitcher) {
+                    soundPool.play(soundMap.get(SOUND_BUTTON), V.volume, V.volume, V.priority, V.loop, V.rate);
+                }
+                try {
+                    Thread.sleep(200);
+                } catch (Exception e) {
+                }
+                startActivity(new Intent(WaitingFQActivity.this, ActivityGame.class));
+                overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+                finish();
+            }
+        });
     }
 
 }

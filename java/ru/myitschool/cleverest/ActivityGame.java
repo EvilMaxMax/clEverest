@@ -33,11 +33,11 @@ public class ActivityGame extends AppCompatActivity {
     }
 
     private void createQuestions(){
-        question.add(new Question("Как назывался Урал","Каменный пояс","2","3","4"));
-        question.add(new Question("Как назывался Урал","1","Каменный пояс","3","4"));
-        question.add(new Question("Как назывался Урал","1","2","Каменный пояс","4"));
-        question.add(new Question("Как назывался Урал","1","2","","Каменный пояс"));
-        question.add(new Question("Как назывался Урал","1","Каменный пояс","3","4"));
+        question.add(new Question("Столица США","НьюЙорк","Вашингтон","Осло","НьюДели"));
+        question.add(new Question("Столица США","НьюЙорк","Вашингтон","Осло","НьюДели"));
+        question.add(new Question("Столица США","НьюЙорк","Вашингтон","Осло","НьюДели"));
+        question.add(new Question("Столица США","НьюЙорк","Вашингтон","Осло","НьюДели"));
+        question.add(new Question("Столица США","НьюЙорк","Вашингтон","Осло","НьюДели"));
 
     }
 
@@ -86,6 +86,7 @@ public class ActivityGame extends AppCompatActivity {
     private void selectQuestion(){
         createQuestions();
         setANSandQSize();
+
         pfq = new Panel_for_question(this,V.scrWidth/4,V.scrHeight/12);
         int i = random.nextInt(5);
         questionText.setText(question.get(i).question);
@@ -93,9 +94,15 @@ public class ActivityGame extends AppCompatActivity {
         answerText2.setText(question.get(i).answer[1]);
         answerText3.setText(question.get(i).answer[2]);
         answerText4.setText(question.get(i).answer[3]);
-        this.addContentView(questionText, new RelativeLayout.LayoutParams((int)(V.scrWidth/3*2),(int)(V.scrHeight/8)));
+        outputQandA();
 
-
+    }
+    private void outputQandA(){
+        this.addContentView(questionText, new RelativeLayout.LayoutParams((V.scrWidth/3*2),(V.scrHeight/8)));
+        this.addContentView(answerText1, new RelativeLayout.LayoutParams((V.scrWidth/3*2),(V.scrHeight/9)));
+        this.addContentView(answerText2, new RelativeLayout.LayoutParams((V.scrWidth/3*2),(V.scrHeight/6)));
+        this.addContentView(answerText3, new RelativeLayout.LayoutParams((V.scrWidth/3*2),(V.scrHeight/3)));
+        this.addContentView(answerText4, new RelativeLayout.LayoutParams((V.scrWidth/3*2),(V.scrHeight*5/10)));
     }
 
     private void setANSandQSize(){

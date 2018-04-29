@@ -45,6 +45,8 @@ public class Button {
                 return R.drawable.image_music_play;
             case "Music_mute":
                 return R.drawable.image_music_mute;
+            case "Question":
+                return R.drawable.b_question;
             default:
                 return R.color.colorAccent;
         }
