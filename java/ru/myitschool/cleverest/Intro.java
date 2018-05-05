@@ -3,6 +3,8 @@ package ru.myitschool.cleverest;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.media.SoundPool;
@@ -12,16 +14,20 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
 
+
+import java.io.IOException;
+import android.database.SQLException;
 import java.util.HashMap;
 import java.util.Map;
 
 public class Intro extends AppCompatActivity {
     Button buttonPlayGame, buttonHowToPlay, buttonExit, buttonSound;
     public static final int SOUND_BUTTON = 0;
-    public SoundPool soundPool;
-    public Map<Integer, Integer> soundMap;
+    public static SoundPool soundPool;
+    public static Map<Integer, Integer> soundMap;
     MediaPlayer mPlayer;
     public static boolean musicSwitcher = true;//true-play false-mute
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +40,8 @@ public class Intro extends AppCompatActivity {
         setClickers();
         initializeSound(this);
         startSound();
+
+
     }
 
     @Override
