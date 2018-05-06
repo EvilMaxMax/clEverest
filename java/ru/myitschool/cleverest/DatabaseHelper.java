@@ -1,6 +1,7 @@
 package ru.myitschool.cleverest;
 
 import android.content.Context;
+import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
@@ -10,6 +11,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.ArrayList;
+import java.util.HashMap;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
     private static String DB_NAME = "questions.db";
@@ -75,7 +78,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         mInput.close();
     }
 
-    public boolean openDataBase() throws SQLException {
+    public  boolean openDataBase() throws SQLException {
         mDataBase = SQLiteDatabase.openDatabase(DB_PATH + DB_NAME, null, SQLiteDatabase.CREATE_IF_NECESSARY);
         return mDataBase != null;
     }
@@ -96,5 +99,23 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         if (newVersion > oldVersion)
             mNeedUpdate = true;
+    }
+
+    public HashMap<String,String> getQandA(){
+        openDataBase();
+        Cursor cursor = mDataBase.rawQuery("SELECT question, r_answer, nr_answer1, nr_answer2, nr_answer3 FROM questions  ORDER BY RANDOM() LIMIT 1", null);
+        HashMap<String, String> hashMap = new HashMap<>();
+        cursor.moveToNext();
+        String question = cursor.getString(0);
+        hashMap.put("question", question);
+        String r_answer = cursor.getString(1);
+        hashMap.put("r_answer", r_answer);
+        String nr_answer1 = cursor.getString(2);
+        hashMap.put("nr_answer1", nr_answer1);
+        String nr_answer2 = cursor.getString(3);
+        hashMap.put("nr_answer2", nr_answer2);
+        String nr_answer3 = cursor.getString(4);
+        hashMap.put("nr_answer3", nr_answer3);
+        return hashMap;
     }
 }

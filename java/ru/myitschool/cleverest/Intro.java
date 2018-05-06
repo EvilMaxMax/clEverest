@@ -14,9 +14,6 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
 
-
-import java.io.IOException;
-import android.database.SQLException;
 import java.util.HashMap;
 import java.util.Map;
 

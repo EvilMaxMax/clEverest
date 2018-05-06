@@ -2,7 +2,6 @@ package ru.myitschool.cleverest;
 
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
-import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.media.MediaPlayer;
@@ -16,6 +15,7 @@ import android.widget.TextView;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
 
@@ -43,7 +43,7 @@ public class ActivityGame extends AppCompatActivity {
         setContentView(R.layout.activity_game);
         fullHD();
         selectQuestion();
-        intialiseDB();
+      //  intialiseDB();
         setClikers();
 
     }
@@ -94,25 +94,13 @@ public class ActivityGame extends AppCompatActivity {
 
         setANSandQLocationandSize();
         createPanels();
-        createQuestions();
-        int i = random.nextInt(2);
-
-      //      String product = "";
-//
-      //     Cursor cursor = mDb.rawQuery("SELECT question FROM questions WHERE id = ?", new String[] {"1"});
-      //      //Cursor cursor = mDb.rawQuery("SELECT * FROM questions", null);
-      //      cursor.moveToFirst();
-      //      while (!cursor.isAfterLast()) {
-      //          product += cursor.getString(1);
-      //          cursor.moveToNext();
-      //      }
-      //      cursor.close();
-
-        questionText.setText(question.get(i).question);
-        answerText1.setText(question.get(i).answer[0]);
-        answerText2.setText(question.get(i).answer[1]);
-        answerText3.setText(question.get(i).answer[2]);
-        answerText4.setText(question.get(i).answer[3]);
+        DatabaseHelper databaseHelper = new DatabaseHelper(this);
+        HashMap<String, String> hashMap = databaseHelper.getQandA();
+        questionText.setText(hashMap.get("question"));
+        answerText1.setText(hashMap.get("r_answer"));
+        answerText2.setText(hashMap.get("nr_answer1"));
+        answerText3.setText(hashMap.get("nr_answer2"));
+        answerText4.setText(hashMap.get("nr_answer3"));
         outputQandA();
 
     }
@@ -126,7 +114,7 @@ public class ActivityGame extends AppCompatActivity {
 
     private void createPanels(){
         pfq = new Panel_for_question(this,(int)(V.scrWidth/100*30.2),(int)(V.scrHeight/100*8.1));
-        pfa1.addContentView(R.drawable.answerpanel, V.scrWidth/2, V.scrHeight/4);
+        pfa1 = new Panel_for_answer(this, V.scrWidth/2, V.scrHeight/4);
         pfa2 = new Panel_for_answer(this, V.scrWidth/2, (float)(V.scrHeight/100*44.5));
         pfa3 = new Panel_for_answer(this, V.scrWidth/2, (float)(V.scrHeight/100*63.5));
         pfa4 = new Panel_for_answer(this, V.scrWidth/2, (float)(V.scrHeight/100*82.7));
@@ -175,15 +163,6 @@ public class ActivityGame extends AppCompatActivity {
         } catch (SQLException mSQLException) {
             throw mSQLException;
         }
-        String product = "";
-
-        Cursor cursor = mDb.rawQuery("SELECT * FROM questions", null);
-        cursor.moveToFirst();
-        while (!cursor.isAfterLast()) {
-            product += cursor.getString(1);
-            cursor.moveToNext();
-        }
-        cursor.close();
 
     }
 
@@ -236,15 +215,6 @@ public class ActivityGame extends AppCompatActivity {
                 }
             }
         });
-    }
-
-    private void createQuestions(){
-        question.add(new Question("Столица США","НьюЙорк","Вашингтон","Осло","НьюДели"));
-        question.add(new Question("Столица США","НьюЙорк","Вашингтон","Осло","НьюДели"));
-        question.add(new Question("Столица США","НьюЙорк","Вашингтон","Осло","НьюДели"));
-        question.add(new Question("Столица США","НьюЙорк","Вашингтон","Осло","НьюДели"));
-        question.add(new Question("Столица США","НьюЙорк","Вашингтон","Осло","НьюДели"));
-
     }
 
 }

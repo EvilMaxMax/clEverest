@@ -21,7 +21,6 @@ public class WaitingFQActivity extends AppCompatActivity {
     public static final int SOUND_BUTTON = 0;
     public SoundPool soundPool;
     public Map<Integer, Integer> soundMap;
-    ImageView image;
     Button buttonQuestion;
 
 
